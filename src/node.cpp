@@ -207,9 +207,6 @@ static float getAngle(const sl_lidar_response_measurement_node_hq_t& node)
 int main(int argc, char * argv[]) {
     ros::init(argc, argv, "rplidar_node");
     
-    rp::Watchdog watchdog;
-    watchdog.start(10000);
-
     std::string channel_type;
     std::string tcp_ip;
     int tcp_port = 20108;
@@ -250,6 +247,9 @@ int main(int argc, char * argv[]) {
     int ver_minor = SL_LIDAR_SDK_VERSION_MINOR;
     int ver_patch = SL_LIDAR_SDK_VERSION_PATCH;    
     ROS_INFO("RPLIDAR running on ROS package rplidar_ros, SDK Version:%d.%d.%d",ver_major,ver_minor,ver_patch);
+
+    rp::Watchdog watchdog;
+    watchdog.start(ros::Duration(10), scan_frequency);
 
     sl_result  op_result;
 
@@ -375,7 +375,7 @@ int main(int argc, char * argv[]) {
             float angle_min = DEG2RAD(0.0f);
             float angle_max = DEG2RAD(360.0f);
             if (op_result == SL_RESULT_OK) {
-                watchdog.refresh();
+                watchdog.update();
 
                 if (angle_compensate) {
                     const int angle_compensate_nodes_count = 360*angle_compensate_multiple;
