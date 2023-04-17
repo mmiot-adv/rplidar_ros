@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(rplidar_ros)
 
+add_compile_options(-std=c++11)
+
 set(RPLIDAR_SDK_PATH "./sdk/")
 set(CMAKE_BUILD_TYPE "Release")
 set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
@@ -25,7 +27,7 @@ include_directories(
 
 catkin_package()
 
-add_executable(rplidarNode src/node.cpp ${RPLIDAR_SDK_SRC})
+add_executable(rplidarNode src/node.cpp src/watchdog.cpp ${RPLIDAR_SDK_SRC})
 target_link_libraries(rplidarNode ${catkin_LIBRARIES})
 
 add_executable(rplidarNodeClient src/client.cpp)
