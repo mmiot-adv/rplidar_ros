@@ -61,7 +61,7 @@ Watchdog::Watchdog() : is_running(false)
 {
   cb_timeout = [] {
     ROS_WARN_STREAM("watchdog: timeout, killing myself (pid: " << getpid() << ")");
-    kill(getpid(), SIGTERM);
+    ros::shutdown();
   };
 }
 Watchdog::Watchdog(std::function<void()> callback) : is_running(false), cb_timeout(callback)
