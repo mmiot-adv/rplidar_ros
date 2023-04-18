@@ -75,7 +75,7 @@ private:
   std::atomic<bool> is_running;
   // the thread to run the watchdog
   std::thread wdt_thread;
-  // the callback function to be called when watchdog is triggered, default is to signal SIGTERM
+  // the callback function to be called when watchdog is triggered, default is to call ros::shutdown()
   std::function<void()> cb_timeout;
   // the global mutex
   std::mutex mtx;
